@@ -1,0 +1,36 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
+
+contract NikeInventory {
+address public owner;
+uint256 public totalNikes = 500; // initial nike inventory
+
+constructor() {
+owner = msg.sender;
+}
+function TotalNikeInBasket (uint256 newTotal) public {
+require(msg.sender == owner, "The total number of Nike products can only be updated by the owner");
+totalNikes = newTotal;
+}
+function SoldNikes(uint256 _quantity) public {
+require(_quantity > 99, "The quantity sold must exceed 100");
+require(_quantity <= totalNikes, "Insufficient Nike products available in stock.");
+
+totalNikes -= _quantity;
+}
+function NikeRestock(uint256 _quantity) public payable {
+require(_quantity > 199, "Restocking amount must exceed 200");
+totalNikes += _quantity;
+}
+
+
+// View function to get the total number of nikes
+function getTotalNikes() public view returns (uint256) {
+return totalNikes;
+}
+
+// View function to get the owner of the contract
+function getOwner() public view returns (address) {
+return owner;
+}
+}
